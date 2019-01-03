@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 include_directories(src/main/cpp/include)
 
-
+file(GLOB source_file src/main/cpp/*.cpp)
 add_library(
              native-lib
 
@@ -12,7 +12,10 @@ add_library(
              SHARED
 
 
-             src/main/cpp/native-lib.cpp )
+             src/main/cpp/native-lib.cpp
+
+             ${source_file}
+              )
 
 
 

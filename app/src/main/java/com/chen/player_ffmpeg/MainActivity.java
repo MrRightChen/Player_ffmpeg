@@ -2,28 +2,39 @@ package com.chen.player_ffmpeg;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.SurfaceView;
+import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
-    }
+
+    private DNPlayer dnPlayer;
+    private SurfaceView mSurface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Example of a call to a native method
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
+        mSurface = (SurfaceView) findViewById(R.id.mSurface);
+
+
+        dnPlayer = new DNPlayer();
+        dnPlayer.setDataSource("rtmp://live.hkstv.hk.lxdns.com/live/hks");
+        dnPlayer.setSurfaceView(mSurface);
+
+
     }
 
     /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
+     * 点击播放
+     * @param view
      */
-    public native String stringFromJNI();
+    public void start(View view) {
+
+        dnPlayer.prepare();
+
+    }
+
 }
