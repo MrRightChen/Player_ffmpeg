@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Player_ffmpeg.iml" filepath="$PROJECT_DIR$/Player_ffmpeg.iml" />
+      <module fileurl="file://D:\Demo\Player_ffmpeg\Player_ffmpeg\Player_ffmpeg.iml" filepath="D:\Demo\Player_ffmpeg\Player_ffmpeg\Player_ffmpeg.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\Demo\Player_ffmpeg\Player_ffmpeg\app\app.iml" filepath="D:\Demo\Player_ffmpeg\Player_ffmpeg\app\app.iml" />
     </modules>
   </component>
 </project>

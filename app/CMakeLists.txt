@@ -26,6 +26,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L${CMAKE_SOURCE_DIR}/src/main/cpp/libs/
 target_link_libraries(
                        native-lib
 
-                       avcodec avfilter avformat avutil swresample swscale
+                       #avcodec avfilter avformat avutil swresample swscale
+                       avformat avcodec avfilter    avutil swresample swscale
 
-                       log )
+                       log z)
