@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +24,13 @@ public class MainActivity extends AppCompatActivity {
         dnPlayer = new DNPlayer();
         dnPlayer.setDataSource("rtmp://live.hkstv.hk.lxdns.com/live/hks");
         dnPlayer.setSurfaceView(mSurface);
+
+        dnPlayer.setOnPrepareListener(new DNPlayer.OnPrepareListener() {
+            @Override
+            public void onPrepare() {
+                Toast.makeText(MainActivity.this,"准备好了",Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }

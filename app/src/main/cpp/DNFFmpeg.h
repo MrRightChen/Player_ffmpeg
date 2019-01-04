@@ -4,9 +4,14 @@
 
 
 
+
+
 #ifndef PLAYER_FFMPEG_DNFFMPEG_H
 #define PLAYER_FFMPEG_DNFFMPEG_H
 
+#include "JavaCallHelper.h"
+#include "AudioChannel.h"
+#include "VideoChannel.h"
 
 extern "C"{
 #include <libavformat/avformat.h>
@@ -16,7 +21,7 @@ extern "C"{
 class DNFFmpeg{
 
 public:
-    DNFFmpeg(const char* dataSource);
+    DNFFmpeg(JavaCallHelper* callHelper,const char* dataSource);
     ~DNFFmpeg();
 
     void prepare();
@@ -28,6 +33,11 @@ private:
     char * dataSource;
     pthread_t  pid;
     AVFormatContext *formatContext;
+    JavaCallHelper* callHelper;
+
+    AudioChannel *audioChannel;
+    VideoChannel *videoChannel;
+
 
 
 };

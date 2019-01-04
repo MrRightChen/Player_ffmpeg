@@ -12,7 +12,7 @@ add_library(
              SHARED
 
 
-             src/main/cpp/native-lib.cpp
+             #src/main/cpp/native-lib.cpp
 
              ${source_file}
               )

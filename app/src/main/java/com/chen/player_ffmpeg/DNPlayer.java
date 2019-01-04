@@ -66,7 +66,7 @@ public class DNPlayer implements SurfaceHolder.Callback {
      */
     public void prepare() {
 
-        native_prepare(dadataSource);
+        nativePrepare(dadataSource);
     }
 
     /**
@@ -99,8 +99,27 @@ public class DNPlayer implements SurfaceHolder.Callback {
 
     }
 
+    public void onError(int errorCode){
+        //TODO 错误回调
 
+    }
 
-    native void native_prepare(String dadataSource);
+    public void onPrepare(){
+        if (onPrepareListener!=null){
+            onPrepareListener.onPrepare();
+        }
+    }
+    //java与java之间回调接口
+    private OnPrepareListener onPrepareListener;
+    public void setOnPrepareListener(OnPrepareListener onPrepareListener) {
+        this.onPrepareListener = onPrepareListener;
+    }
+    public interface OnPrepareListener{
+
+        void onPrepare();
+
+    }
+
+    native void nativePrepare(String dadataSource);
 
 }
