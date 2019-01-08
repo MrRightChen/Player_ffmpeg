@@ -18,8 +18,8 @@ void* task_prepare(void *args){
 
 DNFFmpeg::DNFFmpeg(JavaCallHelper* callHelper,const char *dataSource) {
     this->callHelper=callHelper;
-    //这样写避免悬空指针 dataSource指向的内存被释放
-    this->dataSource = new char[strlen(dataSource)];
+    //这样写避免悬空指针 dataSource指向的内存被释放 注意：\0结尾
+    this->dataSource = new char[strlen(dataSource)+1];
     strcpy(this->dataSource,dataSource);
 }
 
@@ -97,10 +97,10 @@ void DNFFmpeg::_prepare() {
         }
         if (codecpar->codec_type==AVMEDIA_TYPE_AUDIO){
             //音频
-            audioChannel  = new AudioChannel;
+            audioChannel  = new AudioChannel(i);
         }else if (codecpar->codec_type==AVMEDIA_TYPE_VIDEO){
             //视频
-            videoChannel = new VideoChannel;
+            videoChannel = new VideoChannel(i);
         }
     }
     //没有音视频 （很少见）
@@ -112,6 +112,64 @@ void DNFFmpeg::_prepare() {
     //准备完了 通知java 准备好了，可以开始播放了
     callHelper->onPrepare(THREAD_CHILD);
     LOGE("有音视频");
+
+
+}
+
+
+void *play(void* args){
+
+    DNFFmpeg *dnfFmpeg = static_cast<DNFFmpeg*>(args);
+
+    dnfFmpeg->_start();
+
+    return 0;
+
+}
+
+void DNFFmpeg::start() {
+    //标记正在播放
+    isPlaying =1;
+    pthread_create(&pid_paly,0,play,this);
+
+}
+/**
+ * 读取数据包
+ */
+void DNFFmpeg::_start() {
+
+    //AVPacket:存放
+    //AVFrame:
+
+    int ret;
+
+    //1、读取媒体数据包
+    while(isPlaying){
+
+        AVPacket *avPacket = av_packet_alloc();
+        ret = av_read_frame(formatContext,avPacket);
+        if (ret==0){
+            //读取成功
+            //stream_index :流的下标
+            if (audioChannel&&avPacket ->stream_index == audioChannel->id){
+                audioChannel->packets.push(avPacket);
+            } else if (videoChannel&& avPacket->stream_index ==videoChannel->id){
+                videoChannel->packets.push(avPacket);
+            }
+
+        }else if (ret == AVERROR_EOF){
+            //读取完成，可能没播放完
+
+        } else{
+
+
+        }
+    }
+
+
+
+
+    //2、解码
 
 
 }

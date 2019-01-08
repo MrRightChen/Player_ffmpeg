@@ -30,6 +30,7 @@ public class DNPlayer implements SurfaceHolder.Callback {
      * 开始播放
      */
     public void start(){
+        nativeStart();
 
     }
 
@@ -121,5 +122,7 @@ public class DNPlayer implements SurfaceHolder.Callback {
     }
 
     native void nativePrepare(String dadataSource);
+    native void nativeStart();
+
 
 }

@@ -26,17 +26,21 @@ public:
 
     void prepare();
     void _prepare();
+    void start();
+    void _start();
 
 
 
 private:
     char * dataSource;
     pthread_t  pid;
-    AVFormatContext *formatContext;
+    AVFormatContext *formatContext =0;
     JavaCallHelper* callHelper;
 
-    AudioChannel *audioChannel;
-    VideoChannel *videoChannel;
+    AudioChannel *audioChannel =0;
+    VideoChannel *videoChannel =0;
+    bool  isPlaying;
+    pthread_t  pid_paly;
 
 
 

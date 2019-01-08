@@ -24,3 +24,11 @@ Java_com_chen_player_1ffmpeg_DNPlayer_nativePrepare(JNIEnv *env, jobject instanc
     ffmpeg->prepare();
     env->ReleaseStringUTFChars(dadataSource_, dadataSource);
 }
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_chen_player_1ffmpeg_DNPlayer_nativeStart(JNIEnv *env, jobject instance) {
+
+    ffmpeg->start();
+
+}

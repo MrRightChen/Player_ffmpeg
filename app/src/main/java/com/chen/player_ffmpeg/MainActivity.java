@@ -22,17 +22,25 @@ public class MainActivity extends AppCompatActivity {
 
 
         dnPlayer = new DNPlayer();
-        dnPlayer.setDataSource("rtmp://live.hkstv.hk.lxdns.com/live/hks");
+        //dnPlayer.setDataSource("rtmp://live.hkstv.hk.lxdns.com/live/hks");
+        dnPlayer.setDataSource("rtmp://58.200.131.2:1935/livetv/hunantv");
+
         dnPlayer.setSurfaceView(mSurface);
 
         dnPlayer.setOnPrepareListener(new DNPlayer.OnPrepareListener() {
             @Override
             public void onPrepare() {
-                Toast.makeText(MainActivity.this,"准备好了",Toast.LENGTH_SHORT).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this,"准备好了",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
             }
         });
-
-
+//        dnPlayer.start();
     }
 
     /**
