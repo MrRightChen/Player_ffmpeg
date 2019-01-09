@@ -34,13 +34,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(MainActivity.this,"准备好了",Toast.LENGTH_SHORT).show();
-
                     }
                 });
-
+                dnPlayer.start();
             }
         });
-//        dnPlayer.start();
+
     }
 
     /**

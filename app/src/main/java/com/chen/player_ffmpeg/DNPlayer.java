@@ -4,6 +4,8 @@ package com.chen.player_ffmpeg;
  * Created by Administrator on 2019/1/3.
  */
 
+import android.util.Log;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -30,6 +32,7 @@ public class DNPlayer implements SurfaceHolder.Callback {
      * 开始播放
      */
     public void start(){
+        Log.e("DNPlayer:","start");
         nativeStart();
 
     }
@@ -88,7 +91,7 @@ public class DNPlayer implements SurfaceHolder.Callback {
      */
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        nativeSetSurface(holder.getSurface());
     }
 
     /**
@@ -123,6 +126,8 @@ public class DNPlayer implements SurfaceHolder.Callback {
 
     native void nativePrepare(String dadataSource);
     native void nativeStart();
+    native void nativeSetSurface(Surface surface);
+
 
 
 }

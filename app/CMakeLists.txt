@@ -29,4 +29,4 @@ target_link_libraries(
                        #avcodec avfilter avformat avutil swresample swscale
                        avformat avcodec avfilter    avutil swresample swscale
 
-                       log z)
+                       log z android)

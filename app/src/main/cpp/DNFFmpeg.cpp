@@ -97,10 +97,11 @@ void DNFFmpeg::_prepare() {
         }
         if (codecpar->codec_type==AVMEDIA_TYPE_AUDIO){
             //音频
-            audioChannel  = new AudioChannel(i);
+            audioChannel  = new AudioChannel(i,context);
         }else if (codecpar->codec_type==AVMEDIA_TYPE_VIDEO){
             //视频
-            videoChannel = new VideoChannel(i);
+            videoChannel = new VideoChannel(i,context);
+            videoChannel->setRenderFrameCallback(callback);
         }
     }
     //没有音视频 （很少见）
@@ -119,7 +120,7 @@ void DNFFmpeg::_prepare() {
 
 void *play(void* args){
 
-    DNFFmpeg *dnfFmpeg = static_cast<DNFFmpeg*>(args);
+    DNFFmpeg *dnfFmpeg = static_cast<DNFFmpeg *>(args);
 
     dnfFmpeg->_start();
 
@@ -130,8 +131,14 @@ void *play(void* args){
 void DNFFmpeg::start() {
     //标记正在播放
     isPlaying =1;
-    pthread_create(&pid_paly,0,play,this);
 
+    if(videoChannel){
+        videoChannel->packets.setWork(1);
+        videoChannel->play();
+        pthread_create(&pid_paly,0,play,this);
+    } else{
+        LOGE("VideoChannel:");
+    }
 }
 /**
  * 读取数据包
@@ -142,10 +149,8 @@ void DNFFmpeg::_start() {
     //AVFrame:
 
     int ret;
-
     //1、读取媒体数据包
     while(isPlaying){
-
         AVPacket *avPacket = av_packet_alloc();
         ret = av_read_frame(formatContext,avPacket);
         if (ret==0){
@@ -156,20 +161,18 @@ void DNFFmpeg::_start() {
             } else if (videoChannel&& avPacket->stream_index ==videoChannel->id){
                 videoChannel->packets.push(avPacket);
             }
-
         }else if (ret == AVERROR_EOF){
             //读取完成，可能没播放完
 
         } else{
-
+            //
 
         }
     }
 
+}
 
 
-
-    //2、解码
-
-
+void DNFFmpeg::setRenderFrameCallback(RenderFrameCallback callback) {
+    this->callback = callback;
 }

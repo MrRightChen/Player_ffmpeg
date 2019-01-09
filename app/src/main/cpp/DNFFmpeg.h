@@ -29,18 +29,22 @@ public:
     void start();
     void _start();
 
+    //设置渲染帧画面回调
+    void setRenderFrameCallback(RenderFrameCallback callback);
+
 
 
 private:
     char * dataSource;
     pthread_t  pid;
+    pthread_t  pid_paly;
     AVFormatContext *formatContext =0;
     JavaCallHelper* callHelper;
 
     AudioChannel *audioChannel =0;
     VideoChannel *videoChannel =0;
     bool  isPlaying;
-    pthread_t  pid_paly;
+    RenderFrameCallback callback;
 
 
 
